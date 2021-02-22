@@ -7,6 +7,6 @@ from scrap.views import list_view
 urlpatterns = [
     path('', home_view, name='home'),
     path('list/', list_view, name='list'),
-    path('accounts/', include(('accounts.urls', 'accounts'))),
+    path('accounts/', include('accounts.urls', namespace='accounts')),
     path('admin/', admin.site.urls),
 ]
