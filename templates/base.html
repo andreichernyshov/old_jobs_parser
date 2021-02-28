@@ -29,6 +29,9 @@
             <li class="nav-item">
             <a class="nav-link" href="{% url 'accounts:logout' %}">Выйти</a>
             </li>
+            <li class="nav-item">
+            <a class="nav-link" href="{% url 'accounts:update' %}">Настройки</a>
+            </li>
           {% else %}
             <li class="nav-item">
             <a class="nav-link" href="{% url 'accounts:login' %}">Войти</a>

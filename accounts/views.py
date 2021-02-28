@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 
-from .forms import UserLoginForm, UserRegistrationForm
+from .forms import UserLoginForm, UserRegistrationForm, UserUpdateForm
 
 
 def login_view(request):
@@ -26,7 +26,20 @@ def register_view(request):
     form = UserRegistrationForm(request.POST or None)
     if form.is_valid():
         new_user = form.save(commit=False)
-        new_user.set_password(form.cleaned_data['password2'])
+        new_user.set_password(form.cleaned_data['password'])
         new_user.save()
         return render(request, 'accounts/register_done.html', {'new_user': new_user})
     return render(request, 'accounts/register.html', {'form': form})
+
+
+def update_view(request):
+    if request.user.is_authenticated:
+        user = request.user
+        if request.method == 'POST':
+            form = UserUpdateForm(request.POST)
+        else:
+            form = UserUpdateForm(
+                initial={'city': user.city, 'language': user.language, 'send_email': user.send_email})
+            return render(request, 'accounts/update.html', {'form': form})
+    else:
+        return redirect('accounts:login')
