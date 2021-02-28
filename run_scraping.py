@@ -1,7 +1,7 @@
+import asyncio
 import codecs
 import os
 import sys
-import asyncio
 
 from django.contrib.auth import get_user_model
 from django.db import DatabaseError
@@ -9,23 +9,22 @@ from django.db import DatabaseError
 
 proj = os.path.dirname(os.path.abspath('manage.py'))
 sys.path.append(proj)
-os.environ['DJANGO_SETTINGS_MODULE'] = 'scraping.settings'
+os.environ["DJANGO_SETTINGS_MODULE"] = "scraping.settings"
 
 import django
 django.setup()
 
+from scrap.parser import *
 
-from scrap.models import City, Error, Language, Url, Vacancy
-
-from scrap.parser import djinni, dou, rabota, work
+from scrap.models import Error, Url, Vacancy, Language, City
 
 User = get_user_model()
 
 parser = (
-    (djinni, 'djinni'),
-    (dou, 'dou'),
-    (rabota, 'rabota'),
     (work, 'work'),
+    (dou, 'dou'),
+    (djinni, 'djinni'),
+    (rabota, 'rabota')
 )
 
 jobs, errors = [], []

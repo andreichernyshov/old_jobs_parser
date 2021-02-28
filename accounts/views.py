@@ -43,7 +43,7 @@ def update_view(request):
             form = UserUpdateForm(request.POST)
             if form.is_valid():
                 data = form.cleaned_data
-                user.city = data['city]']
+                user.city = data['city']
                 user.language = data['language']
                 user.send_email = data['send_email']
                 user.save()
