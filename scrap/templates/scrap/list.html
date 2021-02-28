@@ -22,20 +22,19 @@
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     {% if object_list.has_previous %}
-                  <li class="page-item">
+                    <li class="page-item">
                         
                     <a class="page-link" href="?city={{ city }}&language={{ language }}&page=1" aria-label="Previous">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
 
-                  </li>
+                    </li>
                     {% endif %}
                         
                     {% for page in object_list.paginator.page_range %}       
-                    <li class="page-item {% if page == object_list.number %} active                  
-                    {% endif %}
-                        ">
+                    <li class="page-item {% if page == object_list.number %} active {% endif %}">
                             <a class="page-link" href="?city={{ city }}&language={{ language }}&page={{page}}">{{page}}</a></li>
+                            {% endfor %}
                             {% endif %}
                     {% for page in object_list.paginator.page_range %}
 
@@ -71,14 +70,13 @@
             </div>
         </div>
     </div>
-{% endif %}
     <div class="row">
         <div class="col-md-6 mx-auto">
             <form method="GET" action="{% url 'list' %}">
                 <div class="form-group">
-                    {{ form.as_p }}
+                {{ form.as_p }}
                 </div>
-                <button type="submit" class="btn btn-primary">Найти</button>
+                <button type="submit" class="btn btn-primary"> Найти </button>
             </form>
         </div>
     </div>    
