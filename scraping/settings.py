@@ -1,9 +1,12 @@
 import os
+
 from pathlib import Path
 
 from dotenv import load_dotenv
 
-load_dotenv()
+
+load_dotenv(verbose=True)
+
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_HOST = os.getenv("EMAIL_HOST")
@@ -83,7 +86,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru-ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'EET'
 
 USE_I18N = True
 
@@ -92,7 +95,6 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-
 
 AUTH_USER_MODEL = 'accounts.MyUser'
 

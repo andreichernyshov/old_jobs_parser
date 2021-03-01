@@ -11,20 +11,25 @@ proj = os.path.dirname(os.path.abspath('manage.py'))
 sys.path.append(proj)
 os.environ["DJANGO_SETTINGS_MODULE"] = "scraping.settings"
 
+
 import django
 django.setup()
 
+
 from scrap.parser import *
 
-from scrap.models import Error, Url, Vacancy, Language, City
+
+from scrap.models import Error, Url, Vacancy
+
+# Language, City
 
 User = get_user_model()
 
 parser = (
     (work, 'work'),
+    (rabota, 'rabota'),
     (dou, 'dou'),
-    (djinni, 'djinni'),
-    (rabota, 'rabota')
+    (djinni, 'djinni')
 )
 
 jobs, errors = [], []
@@ -55,12 +60,16 @@ async def main(value):
     errors.extend(err)
     jobs.extend(job)
 
+# (None, func, url, city, language)
+# func, city, language, url = value
 
 settings = get_settings()
 url_list = get_urls(settings)
-loop = asyncio.get_event_loop()
-tmp_tasks = [(func, data['url_data'][key], data['city'], data['language']) for data in url_list for func, key in parser]
 
+loop = asyncio.get_event_loop()
+tmp_tasks = [(func, data['url_data'][key], data['city'], data['language'])
+            for data in url_list
+            for func, key in parser]
 tasks = asyncio.wait([loop.create_task(main(f)) for f in tmp_tasks])
 
 # for data in url_list:
@@ -69,7 +78,6 @@ tasks = asyncio.wait([loop.create_task(main(f)) for f in tmp_tasks])
 #        j, e = func(url, city=data['city'], language=data['language'])
 #        jobs += j
 #        errors += e
-
 
 loop.run_until_complete(tasks)
 loop.close()

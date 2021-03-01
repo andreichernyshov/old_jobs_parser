@@ -35,7 +35,7 @@ class UserRegistrationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('email', )
+        fields = ('email',)
 
     def clean_password2(self):
         data = self.cleaned_data
@@ -59,4 +59,4 @@ class UserUpdateForm(forms.Form):
 
     class Meta:
         model = User
-        fields = ('city', 'Language', 'send_email')
+        fields = ('city', 'language', 'send_email')
