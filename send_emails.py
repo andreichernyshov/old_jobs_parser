@@ -1,22 +1,28 @@
 import os
 import sys
 import django
+import datetime
 
 from django.contrib.auth import get_user_model
 from django.core.mail import EmailMultiAlternatives
+
 
 proj = os.path.dirname(os.path.abspath('manage.py'))
 sys.path.append(proj)
 os.environ["DJANGO_SETTINGS_MODULE"] = "scraping.settings"
 
+
 django.setup()
-from scrap.models import Vacancy
+from scrap.models import Vacancy, Error
 
 from scraping.settings import EMAIL_HOST_USER
 
+ADMIN_USER = EMAIL_HOST_USER
 
-subject = 'Разсылка вакансий'
-text_content = 'Разсылка'
+
+today = datetime.date.today()
+subject = f"Разсылка вакансий за {today}"
+text_content = f"Разсылка за {today}"
 from_email = EMAIL_HOST_USER
 empty = '<h2>По запросу ничего не найденно.</h2>'
 
@@ -32,7 +38,7 @@ if users_dct:
     for pair in users_dct.keys():
         params['city_id__in'].append(pair[0])
         params['language_id__in'].append(pair[1])
-    qs = Vacancy.objects.filter(**params).values()[:3]
+    qs = Vacancy.objects.filter(**params, timestamp=today).values()
     vacancies = {}
     for i in qs:
         vacancies.setdefault((i['city_id'], i['language_id']), [])
@@ -41,7 +47,7 @@ if users_dct:
         rows = vacancies.get(keys, [])
         html = ''
         for row in rows:
-            html += f'<h5><a href="{ row["url"] }">{ row["title"] }</a></h5>'
+            html += f'<h3><a href="{ row["url"] }">{ row["title"] }</a></h3>'
             html += f'<p> { row["description"] } </p>'
             html += f'<p> { row["company"] } </p><br><hr>'
         _html = html if html else empty
@@ -50,3 +56,17 @@ if users_dct:
             msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
             msg.attach_alternative(_html, "text/html")
             msg.send()
+
+qs = Error.objects.filter(timestamp=today)
+if qs.exists():
+    error = qs.first()
+    data = error.data
+    _html = ' '
+    for i in data:
+        _html += f'<p><a href="{ i["url"] }">Error: { i["title"] } </a></p>'
+    subject = ''
+    text_content = ''
+    to = ADMIN_USER
+    msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+    msg.attach_alternative(_html, "text/html")
+    msg.send()
