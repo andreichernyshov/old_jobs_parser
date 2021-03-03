@@ -3,8 +3,8 @@
 {% block title %} Update {% endblock %}
 
 {% block content %}
-<div class="row">
-  <div class="col-md-10 mx-auto">
+<div class="row ">
+  <div class="col-md-8 mx-auto">
       <h4 class="my-2"> Настройки </h4>
     <form method="POST" action="">
         {% csrf_token %}
@@ -17,5 +17,27 @@
         <button type="submit" class="btn btn-danger my-3"> Удалить </button>
     </form>
     </div>
-</div>    
+</div>
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <p class="my-3"> Свяжитесь с нами </p>
+        <p>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapsed" aria-expanded="false" aria-controls="collapseExample">
+            Отобразить форму
+            </button>
+        </p>
+          <div class="collapse" id="collapsed">
+            <div class="card card-body">
+                <form method="POST" action="{% url 'accounts:contact' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                    {{ contact_form.as_p }}
+                    </div>
+                    <button type="submit" class="btn btn-primary my-3"> Отправить </button>
+                </form>
+            </div>
+          </div>
+    </div>
+</div> 
 {% endblock %}
