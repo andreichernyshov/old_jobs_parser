@@ -80,7 +80,7 @@ def contact(request):
             qs = Error.objects.filter(timestamp=dt.date.today())
             if qs.exists():
                 err = qs.first()
-                data = data.get('user_data', [])
+                data = err.data.get('user_data', [])
                 data.append({'city': city, 'language': language, 'email': email})
                 err.data['user_data'] = data
                 err.save()
