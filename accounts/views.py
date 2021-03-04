@@ -1,11 +1,10 @@
 import datetime as dt
 
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-from django.contrib.auth import logout, get_user_model
+from django.shortcuts import redirect, render
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib import messages
 
-from .forms import UserLoginForm, UserRegistrationForm, UserUpdateForm, ContactForm
+from accounts.forms import UserLoginForm, UserRegistrationForm, UserUpdateForm, ContactForm
 from scrap.models import Error
 
 User = get_user_model()
@@ -53,6 +52,7 @@ def update_view(request):
                 user.save()
                 messages.success(request, 'Данные изменены.')
                 return redirect('accounts:update')
+
         form = UserUpdateForm(initial={'city': user.city, 'language': user.language, 'send_email': user.send_email})
         return render(request, 'accounts/update.html', {'form': form, 'contact_form': contact_form})
     else:
@@ -81,12 +81,14 @@ def contact(request):
             if qs.exists():
                 err = qs.first()
                 data = err.data.get('user_data', [])
-                data.append({'city': city, 'language': language, 'email': email})
+                data.append({'city': city, 'email': email, 'language': language})
                 err.data['user_data'] = data
                 err.save()
             else:
-                data = [{'city': city, 'language': language, 'email': email}]
-                Error(data=f"user_data:{data}").save()
+                data = {'user_data': [
+                    {'city': city, 'email': email, 'language': language}
+                ]}
+                Error(data=data).save()
             messages.success(request, 'Сообщение отправлено')
             return redirect('accounts:update')
         else:

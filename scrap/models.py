@@ -1,7 +1,7 @@
 import jsonfield
 
 from django.db import models
-from .utils import from_cyrillic_to_eng
+from scrap.utils import from_cyrillic_to_eng
 
 
 def default_urls():
@@ -47,7 +47,7 @@ class Vacancy(models.Model):
     title = models.CharField(max_length=250, verbose_name='Заголовок вакансии')
     company = models.CharField(max_length=250, verbose_name='Компания')
     description = models.TextField(verbose_name='Описание вакансии')
-    city = models.ForeignKey('City', on_delete=models.CASCADE, verbose_name='Город')
+    city = models.ForeignKey('City', on_delete=models.CASCADE, verbose_name='Город', related_name='vacancies')
     language = models.ForeignKey('Language', on_delete=models.CASCADE, verbose_name='Язык программирования')
     timestamp = models.DateField(auto_now_add=True)
 
@@ -74,4 +74,4 @@ class Url(models.Model):
     url_data = jsonfield.JSONField(default=default_urls)
 
     class Meta:
-        unique_together = ['city', 'language']
+        unique_together = ('city', 'language')

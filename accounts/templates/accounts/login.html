@@ -3,15 +3,17 @@
 {% block title %} Login {% endblock %}
 
 {% block content %}
-<div class="col-md-12 mx-auto">
-  <h4 class="my-2">Страница авторизации</h4>
-    <form method="POST" action="">
-        {% csrf_token %}
-      <div class="form-group">
-        {{ form.as_p }}
-      </div>
-      <button type="submit" class="btn btn-primary">Войти</button>
-    </form>
-  </div>
+
+<div class="row">
+    <div class="col-md-8 mx-auto">
+    <h4 class="my-2">Страница авторизации</h4>
+      <form method="POST" action="">
+          {% csrf_token %}
+         <div class="form-group">
+          {{ form.as_p }}
+         </div>
+        <button type="submit" class="btn btn-primary">Войти</button>
+      </form>
+    </div>
 </div>    
 {% endblock %}

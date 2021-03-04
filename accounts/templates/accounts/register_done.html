@@ -3,11 +3,12 @@
 {% block title %} Register {% endblock %}
 
 {% block content %}
-<div class="col-md-12 mx-auto">
-  <h4 class="my-2"><strong>Приветствуем на сервисе <strong>"Programmer's Choice"</strong>, {{ new_user.email}}!</strong></h4>
-    <p><strong>Вы успешно зарегистрировались.</strong>Теперь Вам доступны функции сервиса,<br>
-    по подбору актуальных вакансий в сфере Информационных Технологий.</p>
-    <p>Вы можете воспользоваться ими, для этого необходимо <a href="{% url 'accounts:login' %}">войти</a></p>
+<div class="row">
+  <div class="col-md-8 mx-auto">
+    <h4 class="my-2"><strong>Приветствуем на сервисе <strong>"Programmer's Choice"</strong>, {{ new_user.email}}!</strong></h4>
+     <p><strong>Вы успешно зарегистрировались.</strong>Теперь Вам доступны функции сервиса,<br>
+     по подбору актуальных вакансий в сфере Информационных Технологий.</p>
+     <p>Вы можете воспользоваться ими, для этого необходимо <a href="{% url 'accounts:login' %}">войти</a></p>
   </div>
-</div>    
+</div>
 {% endblock %}

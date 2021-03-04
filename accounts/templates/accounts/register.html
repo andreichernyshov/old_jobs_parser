@@ -3,15 +3,16 @@
 {% block title %} Register {% endblock %}
 
 {% block content %}
-<div class="col-md-12 mx-auto">
-  <h4 class="my-2">Страница регистрации</h4>
+<div class="row">
+  <div class="col-md-8 mx-auto">
+    <h4 class="my-2">Страница регистрации</h4>
     <form method="POST" action="">
         {% csrf_token %}
-      <div class="form-group">
+       <div class="form-group">
         {{ form.as_p }}
-      </div>
+       </div>
       <button type="submit" class="btn btn-primary"> Зарегистрироваться </button>
     </form>
   </div>
-</div>    
+</div>
 {% endblock %}

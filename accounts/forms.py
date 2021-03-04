@@ -1,8 +1,8 @@
 from django import forms
-from scrap.models import City, Language
-from django.contrib.auth import get_user_model, authenticate
+from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.hashers import check_password
 
+from scrap.models import City, Language
 
 User = get_user_model()
 
@@ -24,7 +24,6 @@ class UserLoginForm(forms.Form):
             user = authenticate(email=email, password=password)
             if not user:
                 raise forms.ValidationError('Аккаунт заблокирован.')
-
         return super(UserLoginForm, self).clean(*args, **kwargs)
 
 

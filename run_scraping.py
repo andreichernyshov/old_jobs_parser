@@ -50,8 +50,10 @@ def get_urls(_settings):
             tmp = {}
             tmp['city'] = pair[0]
             tmp['language'] = pair[1]
-            tmp['url_data'] = url_dct[pair]
-            urls.append(tmp)
+            url_data = url_dct.get(pair)
+            if url_data:
+                tmp['url_data'] = url_dct.get(pair)
+                urls.append(tmp)
     return urls
 
 
@@ -68,8 +70,11 @@ settings = get_settings()
 url_list = get_urls(settings)
 
 loop = asyncio.get_event_loop()
-tmp_tasks = [(func, data['url_data'][key], data['city'], data['language']) for data in url_list for func, key in parser]
-tasks = asyncio.wait([loop.create_task(main(f)) for f in tmp_tasks])
+tmp_tasks = [(func, data['url_data'][key], data['city'], data['language']) 
+            for data in url_list 
+            for func, key in parser]
+
+# tasks = asyncio.wait([loop.create_task(main(f)) for f in tmp_tasks])
 
 # for data in url_list:
 #    for func, key in parser:
@@ -78,8 +83,10 @@ tasks = asyncio.wait([loop.create_task(main(f)) for f in tmp_tasks])
 #        jobs += j
 #        errors += e
 
-loop.run_until_complete(tasks)
-loop.close()
+if tmp_tasks:
+    tasks = asyncio.wait([loop.create_task(main(f)) for f in tmp_tasks])
+    loop.run_until_complete(tasks)
+    loop.close()
 
 for job in jobs:
     v = Vacancy(**job)
@@ -87,7 +94,6 @@ for job in jobs:
         v.save()
     except DatabaseError:
         pass
-
 if errors:
     qs = Error.objects.filter(timestamp=dt.date.today())
     if qs.exists():
@@ -100,3 +106,6 @@ if errors:
 # h = codecs.open('work.txt', 'w', 'utf-8')
 # h.write(str(jobs))
 # h.close()
+
+ten_days_ago = dt.date.today() - dt.timedelta(10)
+Vacancy.objects.filter(timestamp__lte=ten_days_ago).delete()

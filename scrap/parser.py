@@ -1,5 +1,5 @@
-import codecs
 import requests
+# import codecs
 from bs4 import BeautifulSoup as BS
 from random import randint
 
@@ -138,8 +138,4 @@ def djinni(url, city=None, language=None):
 
 
 if __name__ == '__main__':
-    url = 'https://djinni.co/jobs/keyword-python/kyiv/'
-    jobs, errors = djinni(url)
-    h = codecs.open('work.txt', 'w', 'utf-8')
-    h.write(str(jobs))
-    h.close()
+    __all__
