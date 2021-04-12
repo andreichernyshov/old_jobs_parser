@@ -14,7 +14,7 @@ headers = [
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'},
     {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; rv:53.0) Gecko/20100101 Firefox/53.0',
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'}
-    ]
+]
 
 
 def work(url, city=None, language=None):
@@ -135,6 +135,13 @@ def djinni(url, city=None, language=None):
             errors.append({'url': url, 'title': "Page do not response"})
 
     return jobs, errors
+
+
+# def parsers():
+#    work(url='https://www.work.ua', city=None, language=None)
+#    rabota(url='https://rabota.ua', city=None, language=None)
+#    dou(url='', city=None, language=None)
+#    djinni(url='https://djinni.co', city=None, language=None)
 
 
 if __name__ == '__main__':

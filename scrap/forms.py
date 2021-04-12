@@ -32,9 +32,10 @@ class VForm(forms.ModelForm):
         attrs={'class': 'form-control'}))
     company = forms.CharField(label='Компания', widget=forms.TextInput(
         attrs={'class': 'form-control'}))
-    description = forms.CharField(label='Описание вакансии',
-                                  widget=forms.Textarea(
-                                      attrs={'class': 'form-control'}))
+    description = forms.CharField(
+        label='Описание вакансии',
+        widget=forms.Textarea(
+            attrs={'class': 'form-control'}))
 
     class Meta:
         model = Vacancy
